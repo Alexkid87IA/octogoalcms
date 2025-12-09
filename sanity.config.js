@@ -7,9 +7,9 @@ import portableTextHtmlPreview from './plugins/portableTextHtmlPreview' // AJOUT
 
 export default defineConfig({
   name: 'default',
-  title: 'rogersanity',
+  title: 'octogoalcms',
 
-  projectId: 'z9wsynas',
+  projectId: '5rn8u6ed',
   dataset: 'production',
 
   plugins: [
