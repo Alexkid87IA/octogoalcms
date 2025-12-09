@@ -1,0 +1,1696 @@
+[
+  {
+    "fields": [
+      {
+        "name": "language",
+        "type": "string"
+      },
+      {
+        "name": "filename",
+        "type": "string"
+      },
+      {
+        "name": "code",
+        "type": "text"
+      },
+      {
+        "of": [
+          {
+            "type": "number",
+            "title": "Highlighted line"
+          }
+        ],
+        "name": "highlightedLines",
+        "type": "array",
+        "title": "Highlighted lines"
+      }
+    ],
+    "name": "code",
+    "type": "object"
+  },
+  {
+    "fields": [
+      {
+        "validation": [
+          {
+            "rules": [
+              {
+                "flag": "presence",
+                "constraint": "required"
+              }
+            ],
+            "level": "error"
+          }
+        ],
+        "name": "title",
+        "type": "string",
+        "title": "Titre"
+      },
+      {
+        "options": {
+          "source": "title",
+          "maxLength": 96
+        },
+        "validation": [
+          {
+            "rules": [
+              {
+                "flag": "custom"
+              },
+              {
+                "flag": "presence",
+                "constraint": "required"
+              }
+            ],
+            "level": "error"
+          }
+        ],
+        "name": "slug",
+        "type": "slug"
+      },
+      {
+        "options": {
+          "list": [
+            {
+              "title": "📄 Article standard",
+              "value": "article"
+            },
+            {
+              "title": "🎙️ Émission/Podcast",
+              "value": "emission"
+            },
+            {
+              "title": "🍿 Amuse-bouche",
+              "value": "amuse-bouche"
+            },
+            {
+              "title": "💼 Étude de cas",
+              "value": "case-study"
+            },
+            {
+              "title": "🏆 Success Story",
+              "value": "success-story"
+            }
+          ],
+          "layout": "radio"
+        },
+        "initialValue": "article",
+        "validation": [
+          {
+            "rules": [
+              {
+                "flag": "valid",
+                "constraint": [
+                  "article",
+                  "emission",
+                  "amuse-bouche",
+                  "case-study",
+                  "success-story"
+                ]
+              },
+              {
+                "flag": "presence",
+                "constraint": "required"
+              }
+            ],
+            "level": "error"
+          }
+        ],
+        "name": "contentType",
+        "type": "string",
+        "title": "📌 Type de contenu"
+      },
+      {
+        "rows": 4,
+        "validation": [
+          {
+            "rules": [
+              {
+                "flag": "max",
+                "constraint": 280
+              }
+            ],
+            "level": "warning",
+            "message": "Un extrait concis est plus efficace (max 280 caractères recommandés)"
+          }
+        ],
+        "description": "Un résumé court et accrocheur de l'article (utilisé pour les aperçus et le SEO)",
+        "name": "excerpt",
+        "type": "text",
+        "title": "Extrait"
+      },
+      {
+        "options": {
+          "hotspot": true
+        },
+        "fields": [
+          {
+            "description": "Important pour l'accessibilité et le SEO",
+            "name": "alt",
+            "type": "string",
+            "title": "Texte alternatif"
+          },
+          {
+            "description": "Texte affiché sous l'image (optionnel)",
+            "name": "caption",
+            "type": "string",
+            "title": "Légende"
+          }
+        ],
+        "name": "mainImage",
+        "type": "image",
+        "title": "Image principale"
+      },
+      {
+        "description": "Le contenu principal de l'article",
+        "name": "body",
+        "type": "blockContent",
+        "title": "Contenu"
+      },
+      {
+        "validation": [
+          {
+            "rules": [
+              {
+                "flag": "max",
+                "constraint": 5
+              }
+            ],
+            "level": "warning",
+            "message": "Maximum 5 points clés recommandés pour une meilleure lisibilité"
+          }
+        ],
+        "description": "Les points importants de l'article (3-5 points recommandés)",
+        "of": [
+          {
+            "validation": [
+              {
+                "rules": [
+                  {
+                    "flag": "max",
+                    "constraint": 200
+                  }
+                ],
+                "level": "warning",
+                "message": "Gardez les points clés concis (max 200 caractères)"
+              }
+            ],
+            "type": "string"
+          }
+        ],
+        "name": "keyPoints",
+        "type": "array",
+        "title": "💡 Points clés à retenir"
+      },
+      {
+        "validation": [
+          {
+            "rules": [
+              {
+                "flag": "uri",
+                "constraint": {
+                  "options": {
+                    "scheme": [
+                      "/^http$/",
+                      "/^https$/"
+                    ],
+                    "allowRelative": false,
+                    "relativeOnly": false,
+                    "allowCredentials": false
+                  }
+                }
+              }
+            ],
+            "level": "error"
+          }
+        ],
+        "description": "YouTube, Vimeo, Dailymotion, etc.",
+        "hidden": "conditional",
+        "name": "videoUrl",
+        "type": "url",
+        "title": "🎥 URL de la vidéo externe"
+      },
+      {
+        "validation": [
+          {
+            "rules": [
+              {
+                "flag": "regex",
+                "constraint": {
+                  "pattern": "/^\\d{1,3}:\\d{2}$/",
+                  "name": "duration",
+                  "invert": false
+                }
+              }
+            ],
+            "level": "error",
+            "message": "Format invalide. Utilisez MM:SS"
+          }
+        ],
+        "description": "Format: MM:SS (ex: 45:30)",
+        "hidden": "conditional",
+        "name": "duration",
+        "type": "string",
+        "title": "⏱️ Durée"
+      },
+      {
+        "description": "Nom de l'invité principal",
+        "hidden": "conditional",
+        "name": "guest",
+        "type": "string",
+        "title": "🎤 Invité(s)"
+      },
+      {
+        "to": [
+          {
+            "type": "author"
+          }
+        ],
+        "name": "author",
+        "type": "reference",
+        "title": "Auteur"
+      },
+      {
+        "validation": [
+          {
+            "rules": [
+              {
+                "flag": "presence",
+                "constraint": "required"
+              },
+              {
+                "flag": "min",
+                "constraint": 1
+              }
+            ],
+            "level": "error",
+            "message": "Sélectionnez au moins une catégorie principale"
+          }
+        ],
+        "description": "Story, Business, Mental ou Society",
+        "of": [
+          {
+            "to": [
+              {
+                "type": "category"
+              }
+            ],
+            "type": "reference",
+            "title": "Reference to catégorie"
+          }
+        ],
+        "name": "categories",
+        "type": "array",
+        "title": "Catégories principales"
+      },
+      {
+        "description": "Les sous-catégories spécifiques de cet article",
+        "of": [
+          {
+            "to": [
+              {
+                "type": "subcategory"
+              }
+            ],
+            "type": "reference",
+            "title": "Reference to sous-catégorie"
+          }
+        ],
+        "name": "subcategories",
+        "type": "array",
+        "title": "Sous-catégories"
+      },
+      {
+        "description": "Mots-clés pour améliorer la recherche et le SEO",
+        "of": [
+          {
+            "to": [
+              {
+                "type": "tag"
+              }
+            ],
+            "type": "reference",
+            "title": "Reference to tag"
+          }
+        ],
+        "name": "tags",
+        "type": "array"
+      },
+      {
+        "validation": [
+          {
+            "rules": [
+              {
+                "flag": "presence",
+                "constraint": "required"
+              }
+            ],
+            "level": "error"
+          }
+        ],
+        "name": "publishedAt",
+        "type": "datetime",
+        "title": "Publié le"
+      },
+      {
+        "validation": [
+          {
+            "rules": [
+              {
+                "flag": "min",
+                "constraint": 1
+              },
+              {
+                "flag": "max",
+                "constraint": 60
+              }
+            ],
+            "level": "error"
+          }
+        ],
+        "description": "Estimation du temps de lecture",
+        "name": "readingTime",
+        "type": "number",
+        "title": "Temps de lecture (minutes)"
+      },
+      {
+        "initialValue": false,
+        "description": "Afficher dans la section \"5 essentiels\"",
+        "name": "isEssential",
+        "type": "boolean",
+        "title": "⭐ Article essentiel"
+      },
+      {
+        "initialValue": false,
+        "description": "Afficher dans la section \"Articles tendances\"",
+        "name": "isTrending",
+        "type": "boolean",
+        "title": "🔥 Article tendance"
+      },
+      {
+        "validation": [
+          {
+            "rules": [
+              {
+                "flag": "min",
+                "constraint": 1
+              },
+              {
+                "flag": "max",
+                "constraint": 6
+              }
+            ],
+            "level": "error"
+          }
+        ],
+        "description": "Position d'affichage (1 = premier, 2 = deuxième, etc.)",
+        "hidden": "conditional",
+        "name": "trendingOrder",
+        "type": "number",
+        "title": "Ordre dans les tendances"
+      },
+      {
+        "initialValue": false,
+        "description": "Afficher comme article principal sur la homepage",
+        "name": "isFeatured",
+        "type": "boolean",
+        "title": "🌟 Article à la une"
+      },
+      {
+        "options": {
+          "collapsible": true,
+          "collapsed": false
+        },
+        "fields": [
+          {
+            "initialValue": 0,
+            "validation": [
+              {
+                "rules": [
+                  {
+                    "flag": "min",
+                    "constraint": 0
+                  }
+                ],
+                "level": "error"
+              }
+            ],
+            "name": "views",
+            "type": "number",
+            "title": "Vues/Écoutes"
+          },
+          {
+            "initialValue": 0,
+            "validation": [
+              {
+                "rules": [
+                  {
+                    "flag": "min",
+                    "constraint": 0
+                  }
+                ],
+                "level": "error"
+              }
+            ],
+            "name": "likes",
+            "type": "number"
+          },
+          {
+            "initialValue": 0,
+            "validation": [
+              {
+                "rules": [
+                  {
+                    "flag": "min",
+                    "constraint": 0
+                  }
+                ],
+                "level": "error"
+              }
+            ],
+            "name": "shares",
+            "type": "number",
+            "title": "Partages"
+          },
+          {
+            "initialValue": 0,
+            "validation": [
+              {
+                "rules": [
+                  {
+                    "flag": "min",
+                    "constraint": 0
+                  }
+                ],
+                "level": "error"
+              }
+            ],
+            "name": "comments",
+            "type": "number",
+            "title": "Commentaires"
+          }
+        ],
+        "name": "stats",
+        "type": "object",
+        "title": "📊 Statistiques"
+      },
+      {
+        "options": {
+          "collapsible": true,
+          "collapsed": true
+        },
+        "fields": [
+          {
+            "validation": [
+              {
+                "rules": [
+                  {
+                    "flag": "max",
+                    "constraint": 60
+                  }
+                ],
+                "level": "warning",
+                "message": "Le titre SEO ne devrait pas dépasser 60 caractères"
+              }
+            ],
+            "description": "Titre pour le SEO (50-60 caractères)",
+            "name": "metaTitle",
+            "type": "string"
+          },
+          {
+            "rows": 3,
+            "validation": [
+              {
+                "rules": [
+                  {
+                    "flag": "max",
+                    "constraint": 160
+                  }
+                ],
+                "level": "warning",
+                "message": "La description SEO ne devrait pas dépasser 160 caractères"
+              }
+            ],
+            "description": "Description pour le SEO (150-160 caractères)",
+            "name": "metaDescription",
+            "type": "text"
+          },
+          {
+            "options": {
+              "hotspot": true
+            },
+            "description": "Image pour les partages sur les réseaux sociaux (1200x630px recommandé)",
+            "name": "ogImage",
+            "type": "image",
+            "title": "Image Open Graph"
+          },
+          {
+            "options": {
+              "layout": "tags"
+            },
+            "description": "Mots-clés pour le référencement (5-10 mots-clés recommandés)",
+            "of": [
+              {
+                "type": "string"
+              }
+            ],
+            "name": "keywords",
+            "type": "array",
+            "title": "Mots-clés SEO"
+          }
+        ],
+        "name": "seo",
+        "type": "object",
+        "title": "🔍 SEO & Réseaux sociaux"
+      },
+      {
+        "validation": [
+          {
+            "rules": [
+              {
+                "flag": "max",
+                "constraint": 6
+              }
+            ],
+            "level": "warning",
+            "message": "Maximum 6 articles connexes recommandés"
+          }
+        ],
+        "description": "Articles recommandés à afficher en fin d'article",
+        "of": [
+          {
+            "to": [
+              {
+                "type": "article"
+              }
+            ],
+            "type": "reference",
+            "title": "Reference to article"
+          }
+        ],
+        "name": "relatedArticles",
+        "type": "array",
+        "title": "🔗 Articles connexes"
+      }
+    ],
+    "name": "article",
+    "type": "document"
+  },
+  {
+    "fields": [
+      {
+        "name": "name",
+        "type": "string"
+      },
+      {
+        "options": {
+          "source": "name",
+          "maxLength": 96
+        },
+        "validation": [
+          {
+            "rules": [
+              {
+                "flag": "custom"
+              }
+            ],
+            "level": "error"
+          }
+        ],
+        "name": "slug",
+        "type": "slug"
+      },
+      {
+        "options": {
+          "hotspot": true
+        },
+        "name": "image",
+        "type": "image"
+      },
+      {
+        "of": [
+          {
+            "marks": {
+              "annotations": [
+                {
+                  "i18nTitleKey": "inputs.portable-text.annotation.link",
+                  "options": {
+                    "modal": {
+                      "type": "popover"
+                    }
+                  },
+                  "fields": [
+                    {
+                      "validation": [
+                        {
+                          "rules": [
+                            {
+                              "flag": "uri",
+                              "constraint": {
+                                "options": {
+                                  "scheme": [
+                                    "/^http$/",
+                                    "/^https$/",
+                                    "/^tel$/",
+                                    "/^mailto$/"
+                                  ],
+                                  "allowRelative": true,
+                                  "relativeOnly": false,
+                                  "allowCredentials": false
+                                }
+                              }
+                            }
+                          ],
+                          "level": "error"
+                        }
+                      ],
+                      "description": "A valid web, email, phone, or relative link.",
+                      "name": "href",
+                      "type": "url",
+                      "title": "Link"
+                    }
+                  ],
+                  "name": "link",
+                  "type": "object"
+                }
+              ],
+              "decorators": [
+                {
+                  "value": "strong",
+                  "title": "Strong"
+                },
+                {
+                  "value": "em",
+                  "title": "Italic"
+                },
+                {
+                  "value": "code",
+                  "title": "Code"
+                },
+                {
+                  "value": "underline",
+                  "title": "Underline"
+                },
+                {
+                  "value": "strike-through",
+                  "title": "Strike"
+                }
+              ]
+            },
+            "styles": [
+              {
+                "value": "normal",
+                "title": "Normal"
+              }
+            ],
+            "of": [],
+            "type": "block"
+          }
+        ],
+        "name": "bio",
+        "type": "array"
+      }
+    ],
+    "name": "author",
+    "type": "document"
+  },
+  {
+    "fields": [
+      {
+        "validation": [
+          {
+            "rules": [
+              {
+                "flag": "presence",
+                "constraint": "required"
+              }
+            ],
+            "level": "error"
+          }
+        ],
+        "name": "title",
+        "type": "string",
+        "title": "Titre"
+      },
+      {
+        "options": {
+          "source": "title",
+          "maxLength": 96
+        },
+        "validation": [
+          {
+            "rules": [
+              {
+                "flag": "custom"
+              },
+              {
+                "flag": "presence",
+                "constraint": "required"
+              }
+            ],
+            "level": "error"
+          }
+        ],
+        "name": "slug",
+        "type": "slug"
+      },
+      {
+        "name": "description",
+        "type": "text"
+      }
+    ],
+    "name": "category",
+    "type": "document",
+    "title": "Catégorie"
+  },
+  {
+    "fields": [
+      {
+        "validation": [
+          {
+            "rules": [
+              {
+                "flag": "presence",
+                "constraint": "required"
+              }
+            ],
+            "level": "error"
+          }
+        ],
+        "name": "title",
+        "type": "string",
+        "title": "Titre"
+      },
+      {
+        "options": {
+          "source": "title",
+          "maxLength": 96
+        },
+        "validation": [
+          {
+            "rules": [
+              {
+                "flag": "custom"
+              },
+              {
+                "flag": "presence",
+                "constraint": "required"
+              }
+            ],
+            "level": "error"
+          }
+        ],
+        "name": "slug",
+        "type": "slug"
+      },
+      {
+        "rows": 3,
+        "name": "description",
+        "type": "text"
+      },
+      {
+        "validation": [
+          {
+            "rules": [
+              {
+                "flag": "presence",
+                "constraint": "required"
+              }
+            ],
+            "level": "error"
+          }
+        ],
+        "description": "La catégorie principale à laquelle appartient cette sous-catégorie",
+        "to": [
+          {
+            "type": "category"
+          }
+        ],
+        "name": "parentCategory",
+        "type": "reference",
+        "title": "Catégorie parente"
+      },
+      {
+        "validation": [
+          {
+            "rules": [
+              {
+                "flag": "min",
+                "constraint": 1
+              }
+            ],
+            "level": "error"
+          }
+        ],
+        "description": "Position dans le menu (1, 2, 3...)",
+        "name": "order",
+        "type": "number",
+        "title": "Ordre d'affichage"
+      },
+      {
+        "initialValue": true,
+        "description": "Afficher cette sous-catégorie dans le menu",
+        "name": "isActive",
+        "type": "boolean",
+        "title": "Active"
+      },
+      {
+        "description": "Calculé automatiquement",
+        "readOnly": true,
+        "name": "articleCount",
+        "type": "number",
+        "title": "Nombre d'articles"
+      }
+    ],
+    "name": "subcategory",
+    "type": "document",
+    "title": "Sous-catégorie"
+  },
+  {
+    "fields": [
+      {
+        "validation": [
+          {
+            "rules": [
+              {
+                "flag": "presence",
+                "constraint": "required"
+              }
+            ],
+            "level": "error"
+          }
+        ],
+        "name": "title",
+        "type": "string",
+        "title": "Titre"
+      },
+      {
+        "rows": 2,
+        "name": "description",
+        "type": "text"
+      }
+    ],
+    "name": "tag",
+    "type": "document"
+  },
+  {
+    "fields": [
+      {
+        "validation": [
+          {
+            "rules": [
+              {
+                "flag": "presence",
+                "constraint": "required"
+              }
+            ],
+            "level": "error"
+          }
+        ],
+        "description": "La question principale du débat (ex: \"Faut-il interdire l'IA dans les écoles ?\")",
+        "name": "question",
+        "type": "string",
+        "title": "Question du débat"
+      },
+      {
+        "options": {
+          "source": "question",
+          "maxLength": 96
+        },
+        "validation": [
+          {
+            "rules": [
+              {
+                "flag": "custom"
+              },
+              {
+                "flag": "presence",
+                "constraint": "required"
+              }
+            ],
+            "level": "error"
+          }
+        ],
+        "description": "URL unique pour ce débat",
+        "name": "slug",
+        "type": "slug"
+      },
+      {
+        "validation": [
+          {
+            "rules": [
+              {
+                "flag": "presence",
+                "constraint": "required"
+              }
+            ],
+            "level": "error"
+          }
+        ],
+        "description": "Brève description du sujet du débat",
+        "name": "description",
+        "type": "text"
+      },
+      {
+        "validation": [
+          {
+            "rules": [
+              {
+                "flag": "presence",
+                "constraint": "required"
+              }
+            ],
+            "level": "error"
+          }
+        ],
+        "description": "Catégorie du débat (ex: \"Tech & Éducation\")",
+        "name": "category",
+        "type": "string",
+        "title": "Catégorie"
+      },
+      {
+        "initialValue": true,
+        "description": "Indique si ce débat est actuellement actif et doit être affiché",
+        "name": "isActive",
+        "type": "boolean",
+        "title": "Débat actif"
+      },
+      {
+        "validation": [
+          {
+            "rules": [
+              {
+                "flag": "presence",
+                "constraint": "required"
+              }
+            ],
+            "level": "error"
+          }
+        ],
+        "description": "Date de publication du débat",
+        "name": "publishedAt",
+        "type": "datetime",
+        "title": "Date de publication"
+      },
+      {
+        "validation": [
+          {
+            "rules": [
+              {
+                "flag": "presence",
+                "constraint": "required"
+              }
+            ],
+            "level": "error"
+          }
+        ],
+        "description": "Personne défendant la position POUR",
+        "fields": [
+          {
+            "validation": [
+              {
+                "rules": [
+                  {
+                    "flag": "presence",
+                    "constraint": "required"
+                  }
+                ],
+                "level": "error"
+              }
+            ],
+            "name": "name",
+            "type": "string",
+            "title": "Nom"
+          },
+          {
+            "validation": [
+              {
+                "rules": [
+                  {
+                    "flag": "presence",
+                    "constraint": "required"
+                  }
+                ],
+                "level": "error"
+              }
+            ],
+            "name": "role",
+            "type": "string",
+            "title": "Rôle/Fonction"
+          },
+          {
+            "options": {
+              "hotspot": true
+            },
+            "validation": [
+              {
+                "rules": [
+                  {
+                    "flag": "presence",
+                    "constraint": "required"
+                  }
+                ],
+                "level": "error"
+              }
+            ],
+            "name": "image",
+            "type": "image",
+            "title": "Photo"
+          },
+          {
+            "validation": [
+              {
+                "rules": [
+                  {
+                    "flag": "presence",
+                    "constraint": "required"
+                  }
+                ],
+                "level": "error"
+              }
+            ],
+            "name": "argument",
+            "type": "text",
+            "title": "Argument principal"
+          },
+          {
+            "description": "Expérience ou crédits professionnels (ex: \"15 ans d'expérience en pédagogie numérique\")",
+            "name": "credentials",
+            "type": "string",
+            "title": "Crédits/Expérience"
+          },
+          {
+            "validation": [
+              {
+                "rules": [
+                  {
+                    "flag": "min",
+                    "constraint": 0
+                  }
+                ],
+                "level": "error"
+              }
+            ],
+            "name": "publications",
+            "type": "number",
+            "title": "Nombre de publications"
+          },
+          {
+            "validation": [
+              {
+                "rules": [
+                  {
+                    "flag": "min",
+                    "constraint": 0
+                  }
+                ],
+                "level": "error"
+              }
+            ],
+            "name": "citations",
+            "type": "number",
+            "title": "Nombre de citations"
+          }
+        ],
+        "name": "forPerson",
+        "type": "object",
+        "title": "Intervenant POUR"
+      },
+      {
+        "validation": [
+          {
+            "rules": [
+              {
+                "flag": "presence",
+                "constraint": "required"
+              }
+            ],
+            "level": "error"
+          }
+        ],
+        "description": "Personne défendant la position CONTRE",
+        "fields": [
+          {
+            "validation": [
+              {
+                "rules": [
+                  {
+                    "flag": "presence",
+                    "constraint": "required"
+                  }
+                ],
+                "level": "error"
+              }
+            ],
+            "name": "name",
+            "type": "string",
+            "title": "Nom"
+          },
+          {
+            "validation": [
+              {
+                "rules": [
+                  {
+                    "flag": "presence",
+                    "constraint": "required"
+                  }
+                ],
+                "level": "error"
+              }
+            ],
+            "name": "role",
+            "type": "string",
+            "title": "Rôle/Fonction"
+          },
+          {
+            "options": {
+              "hotspot": true
+            },
+            "validation": [
+              {
+                "rules": [
+                  {
+                    "flag": "presence",
+                    "constraint": "required"
+                  }
+                ],
+                "level": "error"
+              }
+            ],
+            "name": "image",
+            "type": "image",
+            "title": "Photo"
+          },
+          {
+            "validation": [
+              {
+                "rules": [
+                  {
+                    "flag": "presence",
+                    "constraint": "required"
+                  }
+                ],
+                "level": "error"
+              }
+            ],
+            "name": "argument",
+            "type": "text",
+            "title": "Argument principal"
+          },
+          {
+            "description": "Expérience ou crédits professionnels (ex: \"Docteur en sciences de l'éducation\")",
+            "name": "credentials",
+            "type": "string",
+            "title": "Crédits/Expérience"
+          },
+          {
+            "validation": [
+              {
+                "rules": [
+                  {
+                    "flag": "min",
+                    "constraint": 0
+                  }
+                ],
+                "level": "error"
+              }
+            ],
+            "name": "publications",
+            "type": "number",
+            "title": "Nombre de publications"
+          },
+          {
+            "validation": [
+              {
+                "rules": [
+                  {
+                    "flag": "min",
+                    "constraint": 0
+                  }
+                ],
+                "level": "error"
+              }
+            ],
+            "name": "citations",
+            "type": "number",
+            "title": "Nombre de citations"
+          }
+        ],
+        "name": "againstPerson",
+        "type": "object",
+        "title": "Intervenant CONTRE"
+      },
+      {
+        "description": "Statistiques du débat",
+        "fields": [
+          {
+            "initialValue": 0,
+            "validation": [
+              {
+                "rules": [
+                  {
+                    "flag": "min",
+                    "constraint": 0
+                  }
+                ],
+                "level": "error"
+              }
+            ],
+            "name": "participants",
+            "type": "number",
+            "title": "Nombre de participants"
+          },
+          {
+            "initialValue": 0,
+            "validation": [
+              {
+                "rules": [
+                  {
+                    "flag": "min",
+                    "constraint": 0
+                  }
+                ],
+                "level": "error"
+              }
+            ],
+            "name": "comments",
+            "type": "number",
+            "title": "Nombre de commentaires"
+          },
+          {
+            "initialValue": 0,
+            "validation": [
+              {
+                "rules": [
+                  {
+                    "flag": "min",
+                    "constraint": 0
+                  }
+                ],
+                "level": "error"
+              }
+            ],
+            "name": "votesFor",
+            "type": "number",
+            "title": "Votes POUR"
+          },
+          {
+            "initialValue": 0,
+            "validation": [
+              {
+                "rules": [
+                  {
+                    "flag": "min",
+                    "constraint": 0
+                  }
+                ],
+                "level": "error"
+              }
+            ],
+            "name": "votesAgainst",
+            "type": "number",
+            "title": "Votes CONTRE"
+          }
+        ],
+        "name": "stats",
+        "type": "object",
+        "title": "Statistiques"
+      },
+      {
+        "of": [
+          {
+            "fields": [
+              {
+                "validation": [
+                  {
+                    "rules": [
+                      {
+                        "flag": "presence",
+                        "constraint": "required"
+                      }
+                    ],
+                    "level": "error"
+                  }
+                ],
+                "name": "title",
+                "type": "string",
+                "title": "Titre"
+              },
+              {
+                "description": "Référence à un article existant",
+                "to": [
+                  {
+                    "type": "article"
+                  }
+                ],
+                "name": "article",
+                "type": "reference"
+              }
+            ],
+            "type": "object"
+          }
+        ],
+        "name": "relatedArticles",
+        "type": "array",
+        "title": "Articles liés"
+      }
+    ],
+    "name": "debate",
+    "type": "document",
+    "title": "Débat"
+  },
+  {
+    "of": [
+      {
+        "marks": {
+          "annotations": [
+            {
+              "fields": [
+                {
+                  "validation": [
+                    {
+                      "rules": [
+                        {
+                          "flag": "uri",
+                          "constraint": {
+                            "options": {
+                              "scheme": [
+                                "/^http$/",
+                                "/^https$/",
+                                "/^mailto$/",
+                                "/^tel$/"
+                              ],
+                              "allowRelative": false,
+                              "relativeOnly": false,
+                              "allowCredentials": false
+                            }
+                          }
+                        }
+                      ],
+                      "level": "error"
+                    }
+                  ],
+                  "name": "href",
+                  "type": "url",
+                  "title": "URL"
+                },
+                {
+                  "initialValue": true,
+                  "name": "blank",
+                  "type": "boolean",
+                  "title": "Ouvrir dans un nouvel onglet"
+                }
+              ],
+              "name": "link",
+              "type": "object",
+              "title": "URL"
+            }
+          ],
+          "decorators": [
+            {
+              "value": "strong",
+              "title": "Strong"
+            },
+            {
+              "value": "em",
+              "title": "Emphasis"
+            },
+            {
+              "value": "code",
+              "title": "Code"
+            }
+          ]
+        },
+        "lists": [
+          {
+            "value": "bullet",
+            "title": "Bullet"
+          },
+          {
+            "value": "number",
+            "title": "Numbered"
+          }
+        ],
+        "styles": [
+          {
+            "value": "normal",
+            "title": "Normal"
+          },
+          {
+            "value": "h1",
+            "title": "H1"
+          },
+          {
+            "value": "h2",
+            "title": "H2"
+          },
+          {
+            "value": "h3",
+            "title": "H3"
+          },
+          {
+            "value": "h4",
+            "title": "H4"
+          },
+          {
+            "value": "blockquote",
+            "title": "Quote"
+          }
+        ],
+        "of": [],
+        "type": "block"
+      },
+      {
+        "options": {
+          "hotspot": true
+        },
+        "fields": [
+          {
+            "name": "caption",
+            "type": "string",
+            "title": "Légende"
+          },
+          {
+            "description": "Important pour le SEO et l'accessibilité",
+            "name": "alt",
+            "type": "string",
+            "title": "Texte alternatif"
+          }
+        ],
+        "type": "image"
+      },
+      {
+        "fields": [
+          {
+            "validation": [
+              {
+                "rules": [
+                  {
+                    "flag": "presence",
+                    "constraint": "required"
+                  },
+                  {
+                    "flag": "uri",
+                    "constraint": {
+                      "options": {
+                        "scheme": [
+                          "/^http$/",
+                          "/^https$/"
+                        ],
+                        "allowRelative": false,
+                        "relativeOnly": false,
+                        "allowCredentials": false
+                      }
+                    }
+                  },
+                  {
+                    "flag": "custom"
+                  }
+                ],
+                "level": "error"
+              }
+            ],
+            "description": "Collez l'URL complète du post Instagram (ex: https://www.instagram.com/p/ABC123/)",
+            "name": "url",
+            "type": "url",
+            "title": "URL du post Instagram"
+          },
+          {
+            "description": "Une description alternative si le post ne se charge pas",
+            "name": "caption",
+            "type": "string",
+            "title": "Légende (optionnel)"
+          }
+        ],
+        "type": "object",
+        "name": "instagram",
+        "title": "Post Instagram"
+      },
+      {
+        "fields": [
+          {
+            "validation": [
+              {
+                "rules": [
+                  {
+                    "flag": "presence",
+                    "constraint": "required"
+                  },
+                  {
+                    "flag": "uri",
+                    "constraint": {
+                      "options": {
+                        "scheme": [
+                          "/^http$/",
+                          "/^https$/"
+                        ],
+                        "allowRelative": false,
+                        "relativeOnly": false,
+                        "allowCredentials": false
+                      }
+                    }
+                  },
+                  {
+                    "flag": "custom"
+                  }
+                ],
+                "level": "error"
+              }
+            ],
+            "description": "Collez l'URL complète du tweet (ex: https://twitter.com/user/status/123456789)",
+            "name": "url",
+            "type": "url",
+            "title": "URL du tweet"
+          },
+          {
+            "description": "Une description alternative si le tweet ne se charge pas",
+            "name": "caption",
+            "type": "string",
+            "title": "Légende (optionnel)"
+          }
+        ],
+        "type": "object",
+        "name": "twitter",
+        "title": "Tweet Twitter/X"
+      },
+      {
+        "type": "youtube",
+        "title": "Vidéo YouTube"
+      },
+      {
+        "options": {
+          "language": "javascript",
+          "languageAlternatives": [
+            {
+              "title": "JavaScript",
+              "value": "javascript"
+            },
+            {
+              "title": "TypeScript",
+              "value": "typescript"
+            },
+            {
+              "title": "HTML",
+              "value": "html"
+            },
+            {
+              "title": "CSS",
+              "value": "css"
+            },
+            {
+              "title": "Python",
+              "value": "python"
+            },
+            {
+              "title": "PHP",
+              "value": "php"
+            },
+            {
+              "title": "JSON",
+              "value": "json"
+            },
+            {
+              "title": "Bash",
+              "value": "bash"
+            }
+          ]
+        },
+        "type": "code",
+        "title": "Bloc de code"
+      }
+    ],
+    "name": "blockContent",
+    "type": "array"
+  },
+  {
+    "fields": [
+      {
+        "validation": [
+          {
+            "rules": [
+              {
+                "flag": "presence",
+                "constraint": "required"
+              },
+              {
+                "flag": "uri",
+                "constraint": {
+                  "options": {
+                    "scheme": [
+                      "/^http$/",
+                      "/^https$/"
+                    ],
+                    "allowRelative": false,
+                    "relativeOnly": false,
+                    "allowCredentials": false
+                  }
+                }
+              },
+              {
+                "flag": "custom"
+              }
+            ],
+            "level": "error"
+          }
+        ],
+        "description": "Collez l'URL complète de la vidéo YouTube (ex: https://www.youtube.com/watch?v=...)",
+        "name": "url",
+        "type": "url",
+        "title": "URL YouTube"
+      },
+      {
+        "description": "Description ou contexte de la vidéo",
+        "name": "caption",
+        "type": "string",
+        "title": "Légende (optionnel)"
+      },
+      {
+        "validation": [
+          {
+            "rules": [
+              {
+                "flag": "min",
+                "constraint": 0
+              }
+            ],
+            "level": "error"
+          }
+        ],
+        "description": "Optionnel : démarrer la vidéo à un moment précis",
+        "name": "startTime",
+        "type": "number",
+        "title": "Temps de début (secondes)"
+      },
+      {
+        "initialValue": false,
+        "description": "Démarrer automatiquement la vidéo (sans son)",
+        "name": "autoplay",
+        "type": "boolean",
+        "title": "Lecture automatique"
+      }
+    ],
+    "name": "youtube",
+    "type": "object",
+    "title": "Vidéo YouTube"
+  }
+]
