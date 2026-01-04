@@ -3,27 +3,26 @@ import {structureTool} from 'sanity/structure'
 import {visionTool} from '@sanity/vision'
 import {codeInput} from '@sanity/code-input'
 import {schemaTypes} from './schemaTypes'
-import portableTextHtmlPreview from './plugins/portableTextHtmlPreview' // AJOUT DU PLUGIN
+import portableTextHtmlPreview from './plugins/portableTextHtmlPreview'
 
 export default defineConfig({
   name: 'default',
-  title: 'rogersanity',
+  title: 'Octogoal CMS',
 
-  projectId: 'z9wsynas',
+  projectId: '5rn8u6ed',
   dataset: 'production',
 
   plugins: [
     structureTool(), 
     visionTool(),
-    codeInput(), // Ajout du plugin pour les blocs de code
-    portableTextHtmlPreview // AJOUT DU PLUGIN HTML PREVIEW
+    codeInput(),
+    portableTextHtmlPreview
   ],
 
   schema: {
     types: schemaTypes,
   },
 
-  // Configuration pour la prévisualisation
   document: {
     productionUrl: async (prev, context) => {
       const {document} = context
@@ -32,11 +31,8 @@ export default defineConfig({
         const slug = document.slug?.current
         if (!slug) return prev
         
-        // URL de votre site Netlify
-        const baseUrl = 'https://rainbow-sunflower-84b16b.netlify.app'
+        const baseUrl = 'https://octogoalmedia.vercel.app'
         
-        // Adaptez cette ligne selon votre structure d'URL
-        // Pour le preview, ajouter le paramètre ?preview=true
         return `${baseUrl}/article/${slug}?preview=true`
       }
       
