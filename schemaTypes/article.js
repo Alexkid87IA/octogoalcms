@@ -1,4 +1,4 @@
-// cms/schemaTypes/article.js - VERSION OPTIMISÉE CENTRALISÉE AVEC KEYPOINTS
+// cms/schemaTypes/article.js - VERSION OCTOGOAL MEDIA FOOTBALL
 
 export default {
   name: 'article',
@@ -26,24 +26,27 @@ export default {
       name: 'contentType',
       type: 'string',
       title: '📌 Type de contenu',
+      description: 'Choisis le format de ton contenu',
       options: {
         list: [
-          {title: '📄 Article standard', value: 'article'},
-          {title: '🎙️ Émission/Podcast', value: 'emission'},
-          {title: '🍿 Amuse-bouche', value: 'amuse-bouche'},
-          {title: '💼 Étude de cas', value: 'case-study'},
-          {title: '🏆 Success Story', value: 'success-story'}
+          {title: '📰 Actu', value: 'actu'},
+          {title: '🎬 Émission Octogoal', value: 'emission'},
+          {title: '⚡ Flash', value: 'flash'},
+          {title: '📊 Analyse', value: 'analyse'},
+          {title: '👤 Portrait', value: 'portrait'},
+          {title: '😂 Mème', value: 'meme'},
+          {title: '📋 Top / Liste', value: 'top'}
         ],
         layout: 'radio'
       },
-      initialValue: 'article',
+      initialValue: 'actu',
       validation: Rule => Rule.required()
     },
     {
       name: 'excerpt',
       type: 'text',
-      title: 'Extrait',
-      description: 'Un résumé court et accrocheur de l\'article (utilisé pour les aperçus et le SEO)',
+      title: 'Extrait / Accroche',
+      description: 'Un résumé court et accrocheur (style Henni bienvenu 😄)',
       rows: 4,
       validation: Rule => Rule.max(280).warning('Un extrait concis est plus efficace (max 280 caractères recommandés)')
     },
@@ -51,23 +54,33 @@ export default {
       name: 'mainImage',
       type: 'image',
       title: 'Image principale',
+      description: 'Format recommandé: 16:9, min 1200x675px',
       options: {
-        hotspot: true
+        hotspot: true,
+        accept: 'image/*'
       },
       fields: [
         {
           name: 'alt',
           type: 'string',
           title: 'Texte alternatif',
-          description: 'Important pour l\'accessibilité et le SEO'
+          description: 'Décris l\'image (ex: "Mbappé célébrant son but")',
+          validation: Rule => Rule.required().warning('Le texte alternatif est important pour le SEO')
         },
         {
           name: 'caption',
           type: 'string',
           title: 'Légende',
           description: 'Texte affiché sous l\'image (optionnel)'
+        },
+        {
+          name: 'credit',
+          type: 'string',
+          title: 'Crédit photo',
+          description: 'Ex: AFP, Reuters, Getty Images'
         }
-      ]
+      ],
+      validation: Rule => Rule.required().error('Une image principale est requise')
     },
     {
       name: 'body',
@@ -79,39 +92,148 @@ export default {
       name: 'keyPoints',
       type: 'array',
       title: '💡 Points clés à retenir',
-      description: 'Les points importants de l\'article (3-5 points recommandés)',
+      description: 'Les infos importantes (3-5 points max)',
       of: [{
         type: 'string',
-        validation: Rule => Rule.max(200).warning('Gardez les points clés concis (max 200 caractères)')
+        validation: Rule => Rule.max(200).warning('Garde les points clés concis (max 200 caractères)')
       }],
-      validation: Rule => Rule.max(5).warning('Maximum 5 points clés recommandés pour une meilleure lisibilité')
+      validation: Rule => Rule.max(5).warning('Maximum 5 points clés pour une meilleure lisibilité')
     },
     
     // ========== CHAMPS POUR ÉMISSIONS/VIDÉOS ==========
     {
       name: 'videoUrl',
       type: 'url',
-      title: '🎥 URL de la vidéo externe',
-      description: 'YouTube, Vimeo, Dailymotion, etc.',
-      hidden: ({document}) => !['emission', 'amuse-bouche'].includes(document?.contentType)
+      title: '🎥 URL de la vidéo',
+      description: 'YouTube, Twitch, Dailymotion, etc.',
+      hidden: ({document}) => !['emission', 'flash', 'meme'].includes(document?.contentType)
     },
     {
       name: 'duration',
       type: 'string',
       title: '⏱️ Durée',
-      description: 'Format: MM:SS (ex: 45:30)',
-      validation: Rule => Rule.regex(/^\d{1,3}:\d{2}$/, {
-        name: 'duration',
-        invert: false
-      }).error('Format invalide. Utilisez MM:SS'),
-      hidden: ({document}) => !['emission', 'amuse-bouche'].includes(document?.contentType)
+      description: 'Format: MM:SS (ex: 45:30) ou HH:MM:SS pour les longues émissions',
+      hidden: ({document}) => !['emission', 'flash'].includes(document?.contentType)
     },
     {
       name: 'guest',
       title: '🎤 Invité(s)',
       type: 'string',
-      description: 'Nom de l\'invité principal',
+      description: 'Nom de l\'invité principal ou des participants',
       hidden: ({document}) => document?.contentType !== 'emission'
+    },
+    
+    // ========== CHAMPS POUR PORTRAITS ==========
+    {
+      name: 'playerName',
+      type: 'string',
+      title: '⚽ Nom du joueur/personnalité',
+      description: 'Le nom complet de la personne',
+      hidden: ({document}) => document?.contentType !== 'portrait'
+    },
+    {
+      name: 'playerClub',
+      type: 'string',
+      title: '🏟️ Club actuel',
+      description: 'Le club actuel du joueur',
+      hidden: ({document}) => document?.contentType !== 'portrait'
+    },
+    {
+      name: 'playerPosition',
+      type: 'string',
+      title: '📍 Poste',
+      description: 'Attaquant, Milieu, Défenseur, Gardien...',
+      hidden: ({document}) => document?.contentType !== 'portrait'
+    },
+    
+    // ========== CHAMPS POUR ANALYSES ==========
+    {
+      name: 'matchInfo',
+      type: 'object',
+      title: '⚽ Infos du match',
+      hidden: ({document}) => document?.contentType !== 'analyse',
+      fields: [
+        {
+          name: 'homeTeam',
+          type: 'clubLink',
+          title: '🏠 Équipe domicile',
+          description: 'Tape le nom du club pour rechercher'
+        },
+        {
+          name: 'awayTeam',
+          type: 'clubLink',
+          title: '✈️ Équipe extérieur',
+          description: 'Tape le nom du club pour rechercher'
+        },
+        {
+          name: 'score',
+          type: 'string',
+          title: 'Score',
+          description: 'Ex: 2-1'
+        },
+        {
+          name: 'competition',
+          type: 'string',
+          title: 'Compétition',
+          description: 'Ligue 1, Champions League, etc.'
+        },
+        {
+          name: 'matchDate',
+          type: 'date',
+          title: 'Date du match'
+        }
+      ]
+    },
+    
+    // ========== CHAMPS POUR TOPS/LISTES ==========
+    {
+      name: 'listItems',
+      type: 'array',
+      title: '📋 Éléments de la liste',
+      description: 'Les éléments de ton classement/top',
+      hidden: ({document}) => document?.contentType !== 'top',
+      of: [{
+        type: 'object',
+        fields: [
+          {
+            name: 'rank',
+            type: 'number',
+            title: 'Position',
+            validation: Rule => Rule.required().min(1)
+          },
+          {
+            name: 'title',
+            type: 'string',
+            title: 'Titre/Nom',
+            validation: Rule => Rule.required()
+          },
+          {
+            name: 'description',
+            type: 'text',
+            title: 'Description',
+            rows: 2
+          },
+          {
+            name: 'image',
+            type: 'image',
+            title: 'Image',
+            options: { hotspot: true }
+          }
+        ],
+        preview: {
+          select: {
+            title: 'title',
+            rank: 'rank',
+            media: 'image'
+          },
+          prepare({title, rank, media}) {
+            return {
+              title: `#${rank} - ${title}`,
+              media
+            }
+          }
+        }
+      }]
     },
     
     // ========== MÉTADONNÉES ==========
@@ -125,36 +247,65 @@ export default {
       name: 'categories',
       type: 'array',
       title: 'Catégories principales',
-      description: 'Story, Business, Mental ou Society',
+      description: 'Actus, Matchs, Clubs, Joueurs, etc.',
       of: [{type: 'reference', to: {type: 'category'}}],
-      validation: Rule => Rule.required().min(1).error('Sélectionnez au moins une catégorie principale')
+      validation: Rule => Rule.required().min(1).error('Sélectionne au moins une catégorie')
     },
     {
       name: 'subcategories',
       type: 'array',
       title: 'Sous-catégories',
-      description: 'Les sous-catégories spécifiques de cet article',
-      of: [{type: 'reference', to: {type: 'subcategory'}}],
-      options: {
-        filter: ({document}) => {
-          if (!document.categories || document.categories.length === 0) {
-            return { filter: 'false == true' }
-          }
-          return {
-            filter: 'parentCategory._ref in $categoryIds',
-            params: {
-              categoryIds: document.categories.map(cat => cat._ref)
+      description: '⚡ Filtrées automatiquement selon la catégorie choisie',
+      of: [{
+        type: 'reference',
+        to: [{type: 'subcategory'}],
+        options: {
+          filter: ({document}) => {
+            // Si pas de catégorie sélectionnée, ne rien montrer
+            if (!document.categories || document.categories.length === 0) {
+              return {
+                filter: '_id == "none"'
+              }
+            }
+            // Filtrer par catégorie parente
+            const categoryIds = document.categories
+              .filter(cat => cat._ref)
+              .map(cat => cat._ref)
+
+            if (categoryIds.length === 0) {
+              return { filter: '_id == "none"' }
+            }
+
+            return {
+              filter: 'parentCategory._ref in $cats',
+              params: { cats: categoryIds }
             }
           }
         }
-      }
+      }]
     },
     {
       name: 'tags',
       type: 'array',
       title: 'Tags',
-      description: 'Mots-clés pour améliorer la recherche et le SEO',
+      description: 'Mots-clés : noms de joueurs, clubs, compétitions...',
       of: [{type: 'reference', to: {type: 'tag'}}]
+    },
+    {
+      name: 'linkedPlayers',
+      type: 'array',
+      title: '⚽ Joueurs concernés',
+      description: 'Tape le nom d\'un joueur → il sera créé automatiquement si besoin',
+      of: [{type: 'playerLink'}],
+      validation: Rule => Rule.max(10).warning('Maximum 10 joueurs par article')
+    },
+    {
+      name: 'linkedClubs',
+      type: 'array',
+      title: '🏟️ Clubs concernés',
+      description: 'Tape le nom d\'un club → il sera créé automatiquement si besoin',
+      of: [{type: 'clubLink'}],
+      validation: Rule => Rule.max(5).warning('Maximum 5 clubs par article')
     },
     {
       name: 'publishedAt',
@@ -167,8 +318,9 @@ export default {
       name: 'readingTime',
       type: 'number',
       title: 'Temps de lecture (minutes)',
-      description: 'Estimation du temps de lecture',
-      validation: Rule => Rule.min(1).max(60).integer()
+      description: '💡 Astuce: ~200 mots/min. Un article de 1000 mots = 5 min',
+      validation: Rule => Rule.min(1).max(60).integer(),
+      initialValue: 3
     },
     
     // ========== VISIBILITÉ ET MISE EN AVANT ==========
@@ -176,28 +328,28 @@ export default {
       name: 'isEssential',
       type: 'boolean',
       title: '⭐ Article essentiel',
-      description: 'Afficher dans la section "5 essentiels"',
+      description: 'Afficher dans la section "À ne pas manquer"',
       initialValue: false
     },
     {
       name: 'isTrending',
       type: 'boolean',
       title: '🔥 Article tendance',
-      description: 'Afficher dans la section "Articles tendances"',
+      description: 'Afficher dans la section "Trending"',
       initialValue: false
     },
     {
       name: 'trendingOrder',
       type: 'number',
       title: 'Ordre dans les tendances',
-      description: 'Position d\'affichage (1 = premier, 2 = deuxième, etc.)',
+      description: 'Position d\'affichage (1 = premier)',
       hidden: ({document}) => !document?.isTrending,
-      validation: Rule => Rule.min(1).max(6).integer()
+      validation: Rule => Rule.min(1).max(10).integer()
     },
     {
       name: 'isFeatured',
       type: 'boolean',
-      title: '🌟 Article à la une',
+      title: '🌟 À la une',
       description: 'Afficher comme article principal sur la homepage',
       initialValue: false
     },
@@ -210,7 +362,7 @@ export default {
       fields: [
         {
           name: 'views',
-          title: 'Vues/Écoutes',
+          title: 'Vues',
           type: 'number',
           initialValue: 0,
           validation: Rule => Rule.min(0).integer()
@@ -239,11 +391,11 @@ export default {
       ],
       options: {
         collapsible: true,
-        collapsed: false
+        collapsed: true
       }
     },
     
-    // ========== SEO ET RÉSEAUX SOCIAUX ==========
+    // ========== SEO ==========
     {
       name: 'seo',
       title: '🔍 SEO & Réseaux sociaux',
@@ -253,7 +405,7 @@ export default {
           name: 'metaTitle',
           title: 'Meta Title',
           type: 'string',
-          description: 'Titre pour le SEO (50-60 caractères)',
+          description: 'Titre pour Google (50-60 caractères)',
           validation: Rule => Rule.max(60).warning('Le titre SEO ne devrait pas dépasser 60 caractères')
         },
         {
@@ -261,27 +413,17 @@ export default {
           title: 'Meta Description',
           type: 'text',
           rows: 3,
-          description: 'Description pour le SEO (150-160 caractères)',
+          description: 'Description pour Google (150-160 caractères)',
           validation: Rule => Rule.max(160).warning('La description SEO ne devrait pas dépasser 160 caractères')
         },
         {
           name: 'ogImage',
-          title: 'Image Open Graph',
+          title: 'Image de partage',
           type: 'image',
-          description: 'Image pour les partages sur les réseaux sociaux (1200x630px recommandé)',
+          description: 'Image pour les partages sur les réseaux (1200x630px)',
           options: {
             hotspot: true
           }
-        },
-        {
-          name: 'keywords',
-          title: 'Mots-clés SEO',
-          type: 'array',
-          of: [{type: 'string'}],
-          options: {
-            layout: 'tags'
-          },
-          description: 'Mots-clés pour le référencement (5-10 mots-clés recommandés)'
         }
       ],
       options: {
@@ -299,8 +441,8 @@ export default {
         type: 'reference',
         to: [{type: 'article'}]
       }],
-      description: 'Articles recommandés à afficher en fin d\'article',
-      validation: Rule => Rule.max(6).warning('Maximum 6 articles connexes recommandés')
+      description: 'Articles à afficher en fin de page',
+      validation: Rule => Rule.max(6).warning('Maximum 6 articles connexes')
     }
   ],
   
@@ -326,7 +468,7 @@ export default {
         subtitle = `${category}${subcategory ? ' › ' + subcategory : ''}${subtitle ? ' • ' + subtitle : ''}`
       }
       
-      // Ajouter la date si publiée
+      // Ajouter la date
       if (publishedAt) {
         const date = new Date(publishedAt).toLocaleDateString('fr-FR', { 
           day: 'numeric', 
@@ -336,7 +478,7 @@ export default {
         subtitle = subtitle ? `${subtitle} • ${date}` : date
       }
       
-      // Ajouter des indicateurs visuels
+      // Badges de mise en avant
       const badges = []
       if (isFeatured) badges.push('🌟')
       if (isEssential) badges.push('⭐')
@@ -344,35 +486,30 @@ export default {
       
       // Emojis pour le type de contenu
       const typeEmojis = {
-        'article': '📄',
-        'emission': '🎙️',
-        'amuse-bouche': '🍿',
-        'case-study': '💼',
-        'success-story': '🏆'
-      }
-      
-      if (badges.length > 0 || contentType !== 'article') {
-        return {
-          ...selection,
-          title: `${typeEmojis[contentType] || ''} ${badges.join(' ')} ${selection.title}`.trim(),
-          subtitle
-        }
+        'actu': '📰',
+        'emission': '🎬',
+        'flash': '⚡',
+        'analyse': '📊',
+        'portrait': '👤',
+        'meme': '😂',
+        'top': '📋'
       }
       
       return {
         ...selection,
+        title: `${typeEmojis[contentType] || '📰'} ${badges.join(' ')} ${selection.title}`.trim(),
         subtitle
       }
     }
   },
   orderings: [
     {
-      title: 'Date de publication, Récent',
+      title: 'Date de publication (récent)',
       name: 'publishedAtDesc',
       by: [{field: 'publishedAt', direction: 'desc'}]
     },
     {
-      title: 'Date de publication, Ancien',
+      title: 'Date de publication (ancien)',
       name: 'publishedAtAsc',
       by: [{field: 'publishedAt', direction: 'asc'}]
     },
@@ -393,7 +530,7 @@ export default {
       ]
     },
     {
-      title: 'Articles à la une',
+      title: 'À la une',
       name: 'featured',
       by: [
         {field: 'isFeatured', direction: 'desc'},
@@ -405,13 +542,6 @@ export default {
       name: 'mostViewed',
       by: [
         {field: 'stats.views', direction: 'desc'}
-      ]
-    },
-    {
-      title: 'Plus aimés',
-      name: 'mostLiked',
-      by: [
-        {field: 'stats.likes', direction: 'desc'}
       ]
     }
   ]

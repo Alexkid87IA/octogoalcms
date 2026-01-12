@@ -1,5 +1,5 @@
 // cms/schemaTypes/blockContent.js
-// Schéma blockContent avec support YouTube, Instagram ET Twitter
+// Schéma blockContent avec support YouTube, Instagram, Twitter ET Tableaux
 
 import {defineType, defineArrayMember} from 'sanity'
 
@@ -25,9 +25,12 @@ export default defineType({
       ],
       marks: {
         decorators: [
-          {title: 'Strong', value: 'strong'},
-          {title: 'Emphasis', value: 'em'},
-          {title: 'Code', value: 'code'}
+          {title: 'Gras', value: 'strong'},
+          {title: 'Italique', value: 'em'},
+          {title: 'Souligné', value: 'underline'},
+          {title: 'Barré', value: 'strike-through'},
+          {title: 'Code', value: 'code'},
+          {title: 'Surligné', value: 'highlight'}
         ],
         annotations: [
           {
@@ -157,10 +160,46 @@ export default defineType({
       type: 'youtube',
       title: 'Vidéo YouTube'
     }),
-    // Bloc de code désactivé temporairement
-    // defineArrayMember({
-    //   type: 'code',
-    //   title: 'Bloc de code',
-    // })
+    defineArrayMember({
+      type: 'table',
+      title: 'Tableau'
+    }),
+    // ========== NOUVEAUX BLOCS v2.0 ==========
+    defineArrayMember({
+      type: 'callout',
+      title: 'Callout / Alerte'
+    }),
+    defineArrayMember({
+      type: 'styledQuote',
+      title: 'Citation stylée'
+    }),
+    defineArrayMember({
+      type: 'statsCard',
+      title: 'Stats Card'
+    }),
+    defineArrayMember({
+      type: 'playerComparison',
+      title: 'Comparaison joueurs'
+    }),
+    defineArrayMember({
+      type: 'imageGallery',
+      title: 'Galerie d\'images'
+    }),
+    defineArrayMember({
+      type: 'ctaButton',
+      title: 'Bouton CTA'
+    }),
+    defineArrayMember({
+      type: 'spoiler',
+      title: 'Spoiler / Révélation'
+    }),
+    defineArrayMember({
+      type: 'accordion',
+      title: 'Accordéon / FAQ'
+    }),
+    defineArrayMember({
+      type: 'playerMention',
+      title: 'Mention Joueur'
+    })
   ],
 })
