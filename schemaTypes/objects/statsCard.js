@@ -12,6 +12,19 @@ export default {
       type: 'string',
       description: 'Ex: Mbappé en 2025-2026'
     },
+    // Legacy fields
+    {
+      name: 'player1Name',
+      title: '[Legacy] Nom joueur 1',
+      type: 'string',
+      hidden: true
+    },
+    {
+      name: 'player2Name',
+      title: '[Legacy] Nom joueur 2',
+      type: 'string',
+      hidden: true
+    },
     {
       name: 'stats',
       title: 'Statistiques',
@@ -23,14 +36,14 @@ export default {
             name: 'value',
             title: 'Valeur',
             type: 'string',
-            validation: Rule => Rule.required(),
+            // validation: Rule => Rule.required(),
             description: 'Ex: 42, 87%, 1.2M'
           },
           {
             name: 'label',
             title: 'Label',
             type: 'string',
-            validation: Rule => Rule.required(),
+            // validation: Rule => Rule.required(),
             description: 'Ex: Buts, Passes D., Valeur'
           },
           {
@@ -78,7 +91,7 @@ export default {
           }
         }
       }],
-      validation: Rule => Rule.min(1).max(6)
+      // validation: Rule => Rule.min(1).max(6)
     },
     {
       name: 'layout',

@@ -17,10 +17,12 @@ export default {
       title: 'Joueur 1',
       type: 'object',
       fields: [
-        { name: 'name', title: 'Nom', type: 'string', validation: Rule => Rule.required() },
+        { name: 'name', title: 'Nom', type: 'string' },
         { name: 'image', title: 'Photo', type: 'image', options: { hotspot: true } },
         { name: 'club', title: 'Club', type: 'string' },
-        { name: 'linkedPlayer', title: 'Lier à fiche joueur', type: 'reference', to: [{ type: 'player' }] }
+        { name: 'linkedPlayer', title: 'Lier à fiche joueur', type: 'reference', to: [{ type: 'player' }] },
+        // Legacy field
+        { name: 'clubLink', title: '[Legacy] Club Link', type: 'clubLink', hidden: true }
       ]
     },
     {
@@ -28,10 +30,12 @@ export default {
       title: 'Joueur 2',
       type: 'object',
       fields: [
-        { name: 'name', title: 'Nom', type: 'string', validation: Rule => Rule.required() },
+        { name: 'name', title: 'Nom', type: 'string' },
         { name: 'image', title: 'Photo', type: 'image', options: { hotspot: true } },
         { name: 'club', title: 'Club', type: 'string' },
-        { name: 'linkedPlayer', title: 'Lier à fiche joueur', type: 'reference', to: [{ type: 'player' }] }
+        { name: 'linkedPlayer', title: 'Lier à fiche joueur', type: 'reference', to: [{ type: 'player' }] },
+        // Legacy field
+        { name: 'clubLink', title: '[Legacy] Club Link', type: 'clubLink', hidden: true }
       ]
     },
     {
@@ -41,9 +45,9 @@ export default {
       of: [{
         type: 'object',
         fields: [
-          { name: 'label', title: 'Statistique', type: 'string', validation: Rule => Rule.required() },
-          { name: 'value1', title: 'Valeur Joueur 1', type: 'string', validation: Rule => Rule.required() },
-          { name: 'value2', title: 'Valeur Joueur 2', type: 'string', validation: Rule => Rule.required() },
+          { name: 'label', title: 'Statistique', type: 'string' },
+          { name: 'value1', title: 'Valeur Joueur 1', type: 'number' },
+          { name: 'value2', title: 'Valeur Joueur 2', type: 'number' },
           {
             name: 'winner',
             title: 'Avantage',
@@ -64,11 +68,17 @@ export default {
           }
         }
       }],
-      validation: Rule => Rule.min(1).max(10)
+      // validation: Rule => Rule.min(1).max(10)
     },
     {
       name: 'verdict',
       title: 'Verdict',
+      type: 'string',
+      description: 'Commentaire de verdict'
+    },
+    {
+      name: 'verdictDetails',
+      title: 'Détails du verdict',
       type: 'object',
       fields: [
         {

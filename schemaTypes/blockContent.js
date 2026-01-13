@@ -83,17 +83,7 @@ export default defineType({
           name: 'url',
           type: 'url',
           title: 'URL du post Instagram',
-          description: 'Collez l\'URL complète du post Instagram',
-          validation: Rule => Rule.required()
-            .uri({
-              scheme: ['http', 'https']
-            })
-            .custom(url => {
-              if (!url || !url.includes('instagram.com')) {
-                return 'L\'URL doit être un lien Instagram valide'
-              }
-              return true
-            })
+          description: 'Collez l\'URL complète du post Instagram'
         },
         {
           name: 'caption',
@@ -124,17 +114,7 @@ export default defineType({
           name: 'url',
           type: 'url',
           title: 'URL du tweet',
-          description: 'Collez l\'URL complète du tweet',
-          validation: Rule => Rule.required()
-            .uri({
-              scheme: ['http', 'https']
-            })
-            .custom(url => {
-              if (!url || (!url.includes('twitter.com') && !url.includes('x.com'))) {
-                return 'L\'URL doit être un lien Twitter/X valide'
-              }
-              return true
-            })
+          description: 'Collez l\'URL complète du tweet'
         },
         {
           name: 'caption',

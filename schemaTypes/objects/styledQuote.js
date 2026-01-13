@@ -10,14 +10,14 @@ export default {
       name: 'quote',
       title: 'Citation',
       type: 'text',
-      rows: 4,
-      validation: Rule => Rule.required()
+      rows: 4
+      // validation: Rule => Rule.required()
     },
     {
       name: 'author',
       title: 'Auteur',
-      type: 'string',
-      validation: Rule => Rule.required()
+      type: 'string'
+      // validation: Rule => Rule.required()
     },
     {
       name: 'role',

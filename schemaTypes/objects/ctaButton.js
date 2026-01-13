@@ -10,7 +10,7 @@ export default {
       name: 'text',
       title: 'Texte du bouton',
       type: 'string',
-      validation: Rule => Rule.required(),
+      // validation: Rule => Rule.required(),
       description: 'Ex: Voir la fiche joueur, Lire la suite, Regarder la vidéo'
     },
     {
@@ -105,6 +105,31 @@ export default {
       type: 'boolean',
       initialValue: false,
       hidden: ({ parent }) => parent?.linkType !== 'external'
+    },
+    // Champs legacy pour rétrocompatibilité
+    {
+      name: 'buttonType',
+      title: '[Legacy] Type de bouton',
+      type: 'string',
+      hidden: true
+    },
+    {
+      name: 'playerName',
+      title: '[Legacy] Nom du joueur',
+      type: 'string',
+      hidden: true
+    },
+    {
+      name: 'clubName',
+      title: '[Legacy] Nom du club',
+      type: 'string',
+      hidden: true
+    },
+    {
+      name: 'url',
+      title: '[Legacy] URL',
+      type: 'string',
+      hidden: true
     }
   ],
   preview: {

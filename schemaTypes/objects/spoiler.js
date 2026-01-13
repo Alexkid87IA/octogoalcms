@@ -10,15 +10,15 @@ export default {
       name: 'title',
       title: 'Titre (visible)',
       type: 'string',
-      validation: Rule => Rule.required(),
+      // validation: Rule => Rule.required(),
       description: 'Ex: Cliquez pour voir le résultat, Notre pronostic'
     },
     {
       name: 'content',
       title: 'Contenu caché',
       type: 'text',
-      rows: 4,
-      validation: Rule => Rule.required()
+      rows: 4
+      // validation: Rule => Rule.required()
     },
     {
       name: 'type',
@@ -34,6 +34,13 @@ export default {
         ]
       },
       initialValue: 'spoiler'
+    },
+    // Legacy field
+    {
+      name: 'spoilerType',
+      title: '[Legacy] Type de spoiler',
+      type: 'string',
+      hidden: true
     },
     {
       name: 'buttonText',

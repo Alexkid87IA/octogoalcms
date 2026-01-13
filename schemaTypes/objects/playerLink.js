@@ -14,7 +14,7 @@ export default defineType({
       title: 'Joueur',
       type: 'reference',
       to: [{type: 'player'}],
-      validation: Rule => Rule.required()
+      // validation: Rule => Rule.required()
     }
   ],
   components: {

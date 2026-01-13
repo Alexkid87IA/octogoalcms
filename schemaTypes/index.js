@@ -13,6 +13,7 @@ import youtube from './youtube'
 // NOUVEAUX SCHÉMAS v2.0
 import player from './player'       // Fiches joueurs détaillées
 import club from './club'           // Fiches clubs avec stats
+import league from './league'       // Fiches championnats/compétitions avec API-Football
 import homepage from './homepage'   // Contrôle éditorial de la homepage
 import table from './table'         // Tableaux dans le contenu
 
@@ -28,12 +29,14 @@ import accordion from './objects/accordion'
 import playerMention from './objects/playerMention'
 import playerLink from './objects/playerLink'
 import clubLink from './objects/clubLink'
+import leagueLink from './objects/leagueLink'  // Lien championnat avec recherche API-Football
 
 export const schemaTypes = [
   // ========== DOCUMENTS PRINCIPAUX ==========
   article,      // Tous types d'articles (actu, émission, flash, analyse, etc.)
   player,       // Fiches joueurs avec stats API-Football
   club,         // Fiches clubs avec effectifs et palmarès
+  league,       // Fiches championnats/compétitions avec API-Football
 
   // ========== ÉQUIPE ==========
   author,       // Auteurs avec réseaux sociaux et rôles
@@ -64,7 +67,8 @@ export const schemaTypes = [
   accordion,        // Accordéons FAQ
   playerMention,    // Mention joueur (carte cliquable vers fiche)
   playerLink,       // Lien joueur avec recherche API-Football
-  clubLink          // Lien club avec recherche API-Football
+  clubLink,         // Lien club avec recherche API-Football
+  leagueLink        // Lien championnat avec recherche API-Football
 ]
 
 /*

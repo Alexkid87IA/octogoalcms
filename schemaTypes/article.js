@@ -64,8 +64,8 @@ export default {
           name: 'alt',
           type: 'string',
           title: 'Texte alternatif',
-          description: 'Décris l\'image (ex: "Mbappé célébrant son but")',
-          validation: Rule => Rule.required().warning('Le texte alternatif est important pour le SEO')
+          description: 'Décris l\'image (ex: "Mbappé célébrant son but")'
+          // validation: Rule => Rule.required().warning('Le texte alternatif est important pour le SEO')
         },
         {
           name: 'caption',
@@ -80,7 +80,7 @@ export default {
           description: 'Ex: AFP, Reuters, Getty Images'
         }
       ],
-      validation: Rule => Rule.required().error('Une image principale est requise')
+      // validation: Rule => Rule.required().error('Une image principale est requise')
     },
     {
       name: 'body',
@@ -198,14 +198,14 @@ export default {
           {
             name: 'rank',
             type: 'number',
-            title: 'Position',
-            validation: Rule => Rule.required().min(1)
+            title: 'Position'
+            // validation: Rule => Rule.required().min(1)
           },
           {
             name: 'title',
             type: 'string',
-            title: 'Titre/Nom',
-            validation: Rule => Rule.required()
+            title: 'Titre/Nom'
+            // validation: Rule => Rule.required()
           },
           {
             name: 'description',
@@ -249,39 +249,16 @@ export default {
       title: 'Catégories principales',
       description: 'Actus, Matchs, Clubs, Joueurs, etc.',
       of: [{type: 'reference', to: {type: 'category'}}],
-      validation: Rule => Rule.required().min(1).error('Sélectionne au moins une catégorie')
+      // validation: Rule => Rule.required().min(1).error('Sélectionne au moins une catégorie')
     },
     {
       name: 'subcategories',
       type: 'array',
       title: 'Sous-catégories',
-      description: '⚡ Filtrées automatiquement selon la catégorie choisie',
+      description: 'Sélectionne les sous-catégories',
       of: [{
         type: 'reference',
-        to: [{type: 'subcategory'}],
-        options: {
-          filter: ({document}) => {
-            // Si pas de catégorie sélectionnée, ne rien montrer
-            if (!document.categories || document.categories.length === 0) {
-              return {
-                filter: '_id == "none"'
-              }
-            }
-            // Filtrer par catégorie parente
-            const categoryIds = document.categories
-              .filter(cat => cat._ref)
-              .map(cat => cat._ref)
-
-            if (categoryIds.length === 0) {
-              return { filter: '_id == "none"' }
-            }
-
-            return {
-              filter: 'parentCategory._ref in $cats',
-              params: { cats: categoryIds }
-            }
-          }
-        }
+        to: [{type: 'subcategory'}]
       }]
     },
     {
@@ -308,11 +285,19 @@ export default {
       validation: Rule => Rule.max(5).warning('Maximum 5 clubs par article')
     },
     {
+      name: 'linkedLeagues',
+      type: 'array',
+      title: '🏆 Championnats concernés',
+      description: 'Sélectionne les championnats/compétitions liés à cet article',
+      of: [{type: 'leagueLink'}],
+      validation: Rule => Rule.max(3).warning('Maximum 3 championnats par article')
+    },
+    {
       name: 'publishedAt',
       type: 'datetime',
       title: 'Publié le',
-      initialValue: () => new Date().toISOString(),
-      validation: Rule => Rule.required()
+      initialValue: () => new Date().toISOString()
+      // validation: Rule => Rule.required()
     },
     {
       name: 'readingTime',

@@ -15,8 +15,8 @@ export default defineType({
       title: 'Joueur',
       type: 'reference',
       to: [{type: 'player'}],
-      description: 'Sélectionne un joueur du CMS',
-      validation: Rule => Rule.required()
+      description: 'Sélectionne un joueur du CMS'
+      // validation: Rule => Rule.required()
     },
     {
       name: 'displayStyle',

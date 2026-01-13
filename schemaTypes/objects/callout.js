@@ -16,6 +16,7 @@ export default {
           { title: '⚠️ Attention', value: 'warning' },
           { title: '✅ Succès', value: 'success' },
           { title: '🔥 Breaking', value: 'breaking' },
+          { title: '🔥 Fire', value: 'fire' },
           { title: '📊 Stat', value: 'stat' },
           { title: '💬 Citation rapide', value: 'quote' }
         ],
@@ -32,8 +33,8 @@ export default {
       name: 'content',
       title: 'Contenu',
       type: 'text',
-      rows: 3,
-      validation: Rule => Rule.required()
+      rows: 3
+      // validation: Rule => Rule.required()
     }
   ],
   preview: {
@@ -48,6 +49,7 @@ export default {
         warning: '⚠️',
         success: '✅',
         breaking: '🔥',
+        fire: '🔥',
         stat: '📊',
         quote: '💬'
       }

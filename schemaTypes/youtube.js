@@ -11,18 +11,16 @@ export default {
       type: 'url',
       title: 'URL YouTube',
       description: 'Collez l\'URL complète de la vidéo YouTube (ex: https://www.youtube.com/watch?v=...)',
-      validation: Rule => Rule.required().uri({
-        scheme: ['http', 'https']
-      }).custom((url) => {
-        if (!url) return true;
-        
-        // Vérifier que c'est bien une URL YouTube valide
-        const youtubeRegex = /^(https?:\/\/)?(www\.)?(youtube\.com\/(watch\?v=|embed\/)|youtu\.be\/)/;
-        if (!youtubeRegex.test(url)) {
-          return 'L\'URL doit être une URL YouTube valide';
-        }
-        return true;
-      })
+      // validation: Rule => Rule.required().uri({
+      //   scheme: ['http', 'https']
+      // }).custom((url) => {
+      //   if (!url) return true;
+      //   const youtubeRegex = /^(https?:\/\/)?(www\.)?(youtube\.com\/(watch\?v=|embed\/)|youtu\.be\/)/;
+      //   if (!youtubeRegex.test(url)) {
+      //     return 'L\'URL doit être une URL YouTube valide';
+      //   }
+      //   return true;
+      // })
     },
     {
       name: 'caption',

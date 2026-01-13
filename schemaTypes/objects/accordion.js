@@ -22,15 +22,28 @@ export default {
           {
             name: 'question',
             title: 'Question / Titre',
-            type: 'string',
-            validation: Rule => Rule.required()
+            type: 'string'
+            // validation: Rule => Rule.required()
           },
           {
             name: 'answer',
             title: 'Réponse / Contenu',
             type: 'text',
-            rows: 4,
-            validation: Rule => Rule.required()
+            rows: 4
+            // validation: Rule => Rule.required()
+          },
+          // Legacy fields
+          {
+            name: 'title',
+            title: '[Legacy] Titre',
+            type: 'string',
+            hidden: true
+          },
+          {
+            name: 'content',
+            title: '[Legacy] Contenu',
+            type: 'text',
+            hidden: true
           },
           {
             name: 'defaultOpen',
@@ -50,7 +63,7 @@ export default {
           }
         }
       }],
-      validation: Rule => Rule.min(1)
+      // validation: Rule => Rule.min(1)
     },
     {
       name: 'allowMultiple',

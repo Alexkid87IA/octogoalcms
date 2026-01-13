@@ -14,7 +14,7 @@ export default defineType({
       title: 'Club',
       type: 'reference',
       to: [{type: 'club'}],
-      validation: Rule => Rule.required()
+      // validation: Rule => Rule.required()
     }
   ],
   components: {

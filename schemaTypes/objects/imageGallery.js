@@ -15,23 +15,50 @@ export default {
       name: 'images',
       title: 'Images',
       type: 'array',
-      of: [{
-        type: 'image',
-        options: { hotspot: true },
-        fields: [
-          {
-            name: 'caption',
-            title: 'Légende',
-            type: 'string'
-          },
-          {
-            name: 'alt',
-            title: 'Texte alternatif',
-            type: 'string'
-          }
-        ]
-      }],
-      validation: Rule => Rule.min(2).max(20)
+      of: [
+        // Format actuel
+        {
+          type: 'image',
+          options: { hotspot: true },
+          fields: [
+            {
+              name: 'caption',
+              title: 'Légende',
+              type: 'string'
+            },
+            {
+              name: 'alt',
+              title: 'Texte alternatif',
+              type: 'string'
+            }
+          ]
+        },
+        // Format legacy (objet avec image nested)
+        {
+          type: 'object',
+          name: 'legacyImage',
+          title: 'Image (legacy)',
+          fields: [
+            {
+              name: 'image',
+              title: 'Image',
+              type: 'image',
+              options: { hotspot: true }
+            },
+            {
+              name: 'caption',
+              title: 'Légende',
+              type: 'string'
+            },
+            {
+              name: 'alt',
+              title: 'Texte alternatif',
+              type: 'string'
+            }
+          ]
+        }
+      ],
+      // validation: Rule => Rule.min(2).max(20)
     },
     {
       name: 'layout',

@@ -164,12 +164,12 @@ export const deskStructure = (S) =>
             ])
         ),
 
-      // ========== JOUEURS & CLUBS ==========
+      // ========== JOUEURS, CLUBS & CHAMPIONNATS ==========
       S.listItem()
-        .title('⚽ Joueurs & Clubs')
+        .title('⚽ Joueurs, Clubs & Championnats')
         .child(
           S.list()
-            .title('Joueurs & Clubs')
+            .title('Joueurs, Clubs & Championnats')
             .items([
               // Joueurs
               S.listItem()
@@ -231,6 +231,67 @@ export const deskStructure = (S) =>
                   S.documentList()
                     .title('Top clubs')
                     .filter('_type == "club" && isTopClub == true')
+                ),
+
+              S.divider(),
+
+              // Championnats
+              S.listItem()
+                .title('🏆 Tous les championnats')
+                .schemaType('league')
+                .child(
+                  S.documentTypeList('league')
+                    .title('Tous les championnats')
+                    .defaultOrdering([{ field: 'order', direction: 'asc' }])
+                ),
+
+              // Championnats par type
+              S.listItem()
+                .title('📊 Par type')
+                .child(
+                  S.list()
+                    .title('Championnats par type')
+                    .items([
+                      S.listItem()
+                        .title('🏟️ Championnats')
+                        .child(
+                          S.documentList()
+                            .title('Championnats nationaux')
+                            .filter('_type == "league" && type == "league"')
+                            .defaultOrdering([{ field: 'order', direction: 'asc' }])
+                        ),
+                      S.listItem()
+                        .title('🏆 Coupes nationales')
+                        .child(
+                          S.documentList()
+                            .title('Coupes nationales')
+                            .filter('_type == "league" && type == "cup"')
+                        ),
+                      S.listItem()
+                        .title('⭐ Coupes européennes')
+                        .child(
+                          S.documentList()
+                            .title('Coupes européennes')
+                            .filter('_type == "league" && type == "european"')
+                        ),
+                      S.listItem()
+                        .title('🌍 Internationales')
+                        .child(
+                          S.documentList()
+                            .title('Compétitions internationales')
+                            .filter('_type == "league" && type == "international"')
+                        ),
+                    ])
+                ),
+
+              // Championnats mis en avant
+              S.listItem()
+                .title('⭐ Championnats mis en avant')
+                .child(
+                  S.documentList()
+                    .title('Championnats mis en avant')
+                    .filter('_type == "league" && isFeatured == true')
+                    .defaultOrdering([{ field: 'order', direction: 'asc' }])
                 ),
             ])
         ),
@@ -346,10 +407,6 @@ export const deskStructure = (S) =>
 
 // Résoudre les types de documents dans le studio
 export const defaultDocumentNodeResolver = (S, { schemaType }) => {
-  // Singleton pour homepage
-  if (schemaType === 'homepage') {
-    return S.document().views([S.view.form()])
-  }
-
-  return S.document().views([S.view.form()])
+  // Configuration par défaut - formulaire standard
+  return S.document()
 }
